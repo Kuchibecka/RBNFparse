@@ -16,7 +16,6 @@ public class Main {
         String configPath = "src/ru/study/config.txt";
         // относительный путь к файлу с анализируемым текстом
         String testPath = "src/ru/study/test.txt";
-        StringBuilder sb = new StringBuilder();
         // формируем reader, который будет читать наш файл с конфигурациями классов текстов, указывая путь до файла
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(configPath))) {
             String configLine;
