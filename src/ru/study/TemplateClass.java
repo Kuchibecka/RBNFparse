@@ -1,19 +1,16 @@
 package ru.study;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TemplateClass {
     private String className;
-    private String[] keywordTemplates;
-    private ArrayList<Integer> uniqueIndex;
+    private ArrayList<String> keyword;
+    private ArrayList<String> unique = new ArrayList<>();
 
-    public TemplateClass(String className, String[] keywordTemplates) {
+    public TemplateClass(String className, ArrayList<String> keyword) {
         this.className = className;
-        this.keywordTemplates = keywordTemplates;
-        this.uniqueIndex = new ArrayList<>();
-        for (int i = 0; i < keywordTemplates.length; i++)
-            this.uniqueIndex.add(i);
+        this.keyword = keyword;
+        this.unique.addAll(keyword);
     }
 
     public String getClassName() {
@@ -24,28 +21,28 @@ public class TemplateClass {
         this.className = className;
     }
 
-    public String[] getKeywordTemplates() {
-        return keywordTemplates;
+    public ArrayList<String> getKeyword() {
+        return keyword;
     }
 
-    public void setKeywordTemplates(String[] keywordTemplates) {
-        this.keywordTemplates = keywordTemplates;
+    public void setKeyword(ArrayList<String> keyword) {
+        this.keyword = keyword;
     }
 
-    public ArrayList<Integer> getUniqueIndex() {
-        return uniqueIndex;
+    public ArrayList<String> getUnique() {
+        return unique;
     }
 
-    public void setUniqueIndex(ArrayList<Integer> uniqueIndex) {
-        this.uniqueIndex = uniqueIndex;
+    public void setUnique(ArrayList<String> unique) {
+        this.unique = unique;
     }
 
     @Override
     public String toString() {
-        return "TemplateClass{" +
-                "className='" + className + '\'' +
-                ", keywordTemplates=" + Arrays.toString(keywordTemplates) +
-                ", uniqueIndex=" + uniqueIndex +
+        return "Класс текста: {" +
+                "имя класса='" + className + '\'' +
+                ", ключевые слова=" + keyword.toString() +
+                ", уникальные ключевые слова=" + unique.toString() +
                 '}';
     }
 }
