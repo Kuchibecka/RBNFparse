@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
@@ -75,6 +77,21 @@ public class Main {
             System.out.println("Сформированные классы текстов:");
             for (TemplateClass tc : templateClasses)
                 System.out.println(tc.toString());
+
+            // считываем всё содержиое входного файла с анализируемым текстом
+            String analysingText = new String(Files.readAllBytes(Paths.get("src/ru/study/test.txt")));
+            System.out.println("Входной текст: " + analysingText);
+            int lastIndex = 1;
+            int count = 0;
+            String patternStr = "[А|а]"; // cлово до % + "[А-я]*\s";
+            Pattern pattern = Pattern.compile(patternStr);
+            Matcher matcher = pattern.matcher(analysingText);
+            while (matcher.find(lastIndex)) {
+                System.out.println(lastIndex);
+                lastIndex= matcher.start() + 1;
+                count++;
+            }
+            System.out.println(count);
         } catch (IOException e) {
             e.printStackTrace();
         }

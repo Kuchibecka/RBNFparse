@@ -6,6 +6,7 @@ public class TemplateClass {
     private String className;
     private ArrayList<String> keyword;
     private ArrayList<String> unique = new ArrayList<>();
+    private float classificationMark = 0;
 
     public TemplateClass(String className, ArrayList<String> keyword) {
         this.className = className;
@@ -37,12 +38,21 @@ public class TemplateClass {
         this.unique = unique;
     }
 
+    public float getClassificationMark() {
+        return classificationMark;
+    }
+
+    public void setClassificationMark(float classificationMark) {
+        this.classificationMark = classificationMark;
+    }
+
     @Override
     public String toString() {
-        return "Класс текста: {" +
-                "имя класса='" + className + '\'' +
-                ", ключевые слова=" + keyword.toString() +
-                ", уникальные ключевые слова=" + unique.toString() +
-                '}';
+        return "Класс текста: {"
+                + "имя класса='" + className + '\''
+                + ", ключевые слова=" + keyword.toString()
+                + ", уникальные ключевые слова=" + unique.toString()
+                + ", оценка классификации=" + classificationMark
+                + '}';
     }
 }
