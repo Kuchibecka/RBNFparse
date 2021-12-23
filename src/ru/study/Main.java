@@ -20,6 +20,7 @@ public class Main {
             System.out.println("Входные данные классов текстов с ещё неготовыми уникальными ключевыми словами:");
             // считываем строки из текстового файла с классами текстов до конца файла
             while ((configLine = reader.readLine()) != null) {
+                configLine = configLine.replace(" ", "");
                 // с помощью функции split() разбиваем строку через разделитель - "," на массив слов
                 ArrayList<String> words = new ArrayList<>(Arrays.asList(configLine.split(",")));
                 // первое слово - название класса текста; записываем его
@@ -80,21 +81,43 @@ public class Main {
 
             // считываем всё содержиое входного файла с анализируемым текстом
             String analysingText = new String(Files.readAllBytes(Paths.get("src/ru/study/test.txt")));
-            System.out.println("Входной текст: " + analysingText);
-            int lastIndex = 1;
-            int count = 0;
-            String patternStr = "[А|а]"; // cлово до % + "[А-я]*\s";
-            Pattern pattern = Pattern.compile(patternStr);
-            Matcher matcher = pattern.matcher(analysingText);
-            while (matcher.find(lastIndex)) {
-                System.out.println(lastIndex);
-                lastIndex= matcher.start() + 1;
-                count++;
+            System.out.println("\n Входной текст: \n" + analysingText + "\n");
+
+            float percentage = 0;
+            for (TemplateClass tc : templateClasses) {
+                // кол-во вхождения уникальных слов неправильно считается
+                int uniqueCount = 0;
+                float keywordCount = 0;
+                for (String keyWord : tc.getKeyword()) {
+                    int lastIndex = 1;
+                    String wordPattern = keyWord;
+                    if (wordPattern.indexOf("%") != 0)
+                        wordPattern = wordPattern.replace("%", "[А-я0-9]*");
+                    Pattern pattern = Pattern.compile(wordPattern);
+                    Matcher matcher = pattern.matcher(analysingText);
+                    while (matcher.find(lastIndex)) {
+                        if (tc.getUnique().contains(keyWord))
+                            uniqueCount++;
+                        lastIndex = matcher.start() + 1;
+                        keywordCount++;
+                    }
+                }
+                System.out.println("Для класса " + tc.getClassName() + ":");
+                System.out.println("Нашлось уникальных ключевых слов: " + uniqueCount);
+                System.out.println("Всего нашлось ключевых слов: " + keywordCount);
+                keywordCount = keywordCount / tc.getKeyword().size();
+                System.out.println("Среднее количество вхождений ключевых слов: " + keywordCount);
+                tc.setClassificationMark(keywordCount * uniqueCount);
+                System.out.println("Функция соответствия для типа текста " + tc.getClassName() + " = " + tc.getClassificationMark() + "\n");
+                percentage+=tc.getClassificationMark();
             }
-            System.out.println(count);
+            System.out.println("________________________________________________________________________");
+            for (TemplateClass tc:templateClasses) {
+                System.out.println("С вероятностью " + Math.round((tc.getClassificationMark()/percentage)*100) + "% анализируемый текста относится к классу " + tc.getClassName());
+            }
+            System.out.println("________________________________________________________________________");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // System.out.println(sb);
     }
 }

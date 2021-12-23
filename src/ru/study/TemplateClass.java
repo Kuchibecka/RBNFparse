@@ -6,7 +6,7 @@ public class TemplateClass {
     private String className;
     private ArrayList<String> keyword;
     private ArrayList<String> unique = new ArrayList<>();
-    private float classificationMark = 0;
+    private float classificationMark = 1;
 
     public TemplateClass(String className, ArrayList<String> keyword) {
         this.className = className;
